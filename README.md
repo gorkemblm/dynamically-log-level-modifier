@@ -49,3 +49,5 @@ Rest call for *secondchildrenpath*:
 After changing the log level for *secondchildrenpath*:
 ![Screenshot from 2021-12-26 19-43-03](https://user-images.githubusercontent.com/83100550/147414748-27f5a684-bf82-462f-957f-b041b0c33c76.png)
 
+
+_If you want to change the log level of all child loggers, you should send parameter as loggerName=root._
