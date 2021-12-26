@@ -14,6 +14,8 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BasicHttpServer {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger("src/main/java/com/gorkem/parentpath/httpserver");
@@ -134,5 +136,21 @@ public class BasicHttpServer {
             }
         }
         return server;
+    }
+
+    public static void printLogPerSpecificTime(int sec, String loggerName) {
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (log.isErrorEnabled()) { log.error("Logger name : {}. ERROR LOG", loggerName); }
+                if (log.isWarnEnabled()) { log.warn("Logger name : {}. WARN LOG", loggerName); }
+                if (log.isInfoEnabled()) { log.info("Logger name : {}. INFO LOG", loggerName); }
+                if (log.isDebugEnabled()) { log.debug("Logger name : {}. DEBUG LOG", loggerName); }
+                if (log.isTraceEnabled()) { log.trace("Logger name : {}. TRACE LOG", loggerName); }
+            }
+        };
+        timer.schedule(task, 100, sec);
     }
 }
