@@ -1,5 +1,6 @@
 package com.gorkem.parentpath.secondchildrenpath;
 
+import com.gorkem.parentpath.LoggerUtils;
 import org.slf4j.LoggerFactory;
 
 public class SecondChildrenClass implements Runnable {
@@ -7,6 +8,6 @@ public class SecondChildrenClass implements Runnable {
 
     @Override
     public void run() {
-
+        LoggerUtils.printLogPerSpecificTime(8000, log);
     }
 }

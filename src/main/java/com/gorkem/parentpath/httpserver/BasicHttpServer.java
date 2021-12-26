@@ -37,7 +37,7 @@ public class BasicHttpServer implements Runnable {
         server.setExecutor(null);
         server.start();
 
-        LoggerUtils.printLogPerSpecificTime(5000, log);
+        LoggerUtils.printLogPerSpecificTime(15000, log);
     }
 
     private static class RootHandler implements HttpHandler {
@@ -76,7 +76,7 @@ public class BasicHttpServer implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                closeServer(server, var1);
+//                closeServer(server, var1);
             }
         }
     }
