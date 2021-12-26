@@ -3,6 +3,7 @@ package com.gorkem.parentpath.httpserver;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import com.gorkem.parentpath.LoggerUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -14,11 +15,9 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class BasicHttpServer {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger("src/main/java/com/gorkem/parentpath/httpserver");
+public class BasicHttpServer implements Runnable {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger("src.main.java.com.gorkem.parentpath.httpserver");
 
     private static String _logLevel = "";
     private static String _loggerName = "";
@@ -27,7 +26,8 @@ public class BasicHttpServer {
     private static int port;
     private static int var1;
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         port = 8080;
         var1 = 0;
         server = serverBuilder(port, var1);
@@ -36,6 +36,8 @@ public class BasicHttpServer {
         server.createContext("/log/change-level", new LogLevelPostHandler());
         server.setExecutor(null);
         server.start();
+
+        LoggerUtils.printLogPerSpecificTime(5000, log);
     }
 
     private static class RootHandler implements HttpHandler {
@@ -136,21 +138,5 @@ public class BasicHttpServer {
             }
         }
         return server;
-    }
-
-    public static void printLogPerSpecificTime(int sec, String loggerName) {
-        Timer timer = new Timer();
-
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                if (log.isErrorEnabled()) { log.error("Logger name : {}. ERROR LOG", loggerName); }
-                if (log.isWarnEnabled()) { log.warn("Logger name : {}. WARN LOG", loggerName); }
-                if (log.isInfoEnabled()) { log.info("Logger name : {}. INFO LOG", loggerName); }
-                if (log.isDebugEnabled()) { log.debug("Logger name : {}. DEBUG LOG", loggerName); }
-                if (log.isTraceEnabled()) { log.trace("Logger name : {}. TRACE LOG", loggerName); }
-            }
-        };
-        timer.schedule(task, 100, sec);
     }
 }
